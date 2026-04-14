@@ -1,7 +1,7 @@
 <section>
-  <h2>MiikunWorld NEXTについて</h2>
+  <h2>MiikunWorld95について</h2>
   <p>
-    新しいMiikunWorld95です。<br>
-    <a href="https://miikun95.net/" target="_blank" rel="noopener">MiikunWorld NEXTをチェック！</a>
+    miikun95のホームページ&nbsp;MiikunWorld95です。<br>
+    <a href="https://miikun95.net/" target="_blank" rel="external noopener no referrer">MiikunWorld95をチェック！</a>
   </p>
 </section>
