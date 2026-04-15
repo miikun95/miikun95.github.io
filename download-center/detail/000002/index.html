@@ -2,8 +2,6 @@
 <html lang="ja" xml:lang="ja" dir="ltr" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="UTF-8">
-
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="only light">
     <meta name="author" content="miikun95">
@@ -570,7 +568,27 @@
       }]
     }
     </script>
-<?php include "/srv/www/html/includes/header.html" ?>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      メインコンテンツにスキップ
+    </a>
+    <nav>
+      <h1><a href="//miikun95.net/">
+        <picture>
+          <source srcset="/mw95-banner.avif" type="image/avif">
+          <source srcset="/mw95-banner.webp" type="image/webp">
+          <img src="/mw95-banner.png" title="MiikunWorld95" alt="MiikunWorld95" width="128" height="64"></a></h1>
+        </picture>
+      <div class="right"><button type="button" id="menu-open" class="mobile"><img src="/menu.svg" title="メニュー" alt="メニューを開く" width="32" height="32"></button></div>
+      <ul id="menu" class="menu">
+        <li><button type="button" id="menu-close" class="mobile"><img src="/close.svg" title="閉じる" alt="メニューを閉じる" width="32" height="32"></button></li>
+        <li><a href="//blog.miikun95.net/" accesskey="b">ミーくん日記[&gt;]</a></li>
+        <li><a href="//miikun95.net/profile/" accesskey="p">プロフィール</a></li>
+        <li><a href="//miikun95.net/download-center/" accesskey="d">ダウンロードセンター</a></li>
+        <li><a href="//miikun95.net/tools/" accesskey="u">便利ツール</a></li>
+      </ul>
+    </nav>
     <header>
       <div class="marquee-container">
         <div class="marquee">メッセージアプリなどで使えるミーくんスタンプ第一弾のダウンロードぺージです</div>
@@ -587,8 +605,7 @@
         <img src="/resources/no-image.svg" alt="" title="No Image" width="240" height="160" fetchpriority="high">
         <br>
         <h2 id="file-title">ミーくんスタンプ</h2>
-  <button id="download-button" type="button">ダウンロード</button><br>
-  <noscript><p>JavaScriptが無効です。直接ダウンロードをクリックしてください。</p><br><a href="/download-center/files/miikun-sticker.zip" aria-label="直接ダウンロード">直接ダウンロード</a></noscript>
+        <a href="/download-center/files/miikun-sticker.zip" id="download-button">ダウンロード</a><br>
         <p aria-hidden="true">&nbsp;&nbsp;&nbsp;</p>
         <div aria-live="polite" class="download">
           <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="text-downloading" id="dl-progress-bar" class="invisible"></div>
@@ -775,6 +792,60 @@
         //cookiePartialagreeButton.addEventListener("click", function() { setConsentStatus(1); });
         cookieAgreeButton.addEventListener("click", function() { setConsentStatus(2); });
     });
+    </script>
+    <script nonce="SNKCVULGdrrC/Ulair7iqw==">
+      "use strict";
+      var downloadText = document.getElementById("text-downloading");
+      var downloadButton = document.getElementById("download-button");
+      var dlProgressBar = document.getElementById("dl-progress-bar");
+      var downloadCompleteText = document.getElementById("text-dl-complete");
+      downloadButton.addEventListener("click", function(e) {
+        e.preventDefault();
+        var download = createXHR();
+        dlProgressBar.setAttribute("aria-valuenow", "0");
+        dlProgressBar.setAttribute("class", "dl-progress-bar-show");
+        setTimeout(function() {
+          download.open("GET", " /download-center/files/miikun-sticker.zip", true);
+          download.responseType = "blob";
+          download.onloadstart = function() {
+            downloadText.removeAttribute("class");
+          };
+          download.onprogress = function(e) {
+            if (e.lengthComputable) { dlProgressBar.setAttribute("aria-valuenow", Math.floor((e.loaded / e.total) * 100)); }
+          }
+          download.onload = function() {
+            var blob = new Blob([download.response], { type: "application/vnd.ms-cab-compressed" });
+            var url = URL.createObjectURL(blob);
+            var downloadLink = document.createElement("a");
+            dlProgressBar.setAttribute("aria-valuenow", "100");
+            downloadText.setAttribute("class", "hidden");
+            downloadCompleteText.removeAttribute("class");
+            downloadLink.setAttribute("class", "hidden");
+            downloadLink.setAttribute("aria-hidden", "true");
+            downloadLink.href = url;
+            downloadLink.download = "miikunmod-1.1.5.cab";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            URL.revokeObjectURL(url);
+            setTimeout(function() {
+              dlProgressBar.setAttribute("aria-valuenow", "0");
+              setTimeout(function() {
+                dlProgressBar.removeAttribute("class");
+                downloadCompleteText.setAttribute("class", "hidden");
+                setTimeout(function() {
+                  dlProgressBar.setAttribute("class", "invisible");
+                }, 400);
+              }, 50);
+            }, 600);
+          };
+          download.onerror = function() {
+            dlProgressBar.style.setAttribute("class", "error");
+            dlProgressBar.setAttribute("aria-valuenow", "100");
+          };
+          download.send();
+        }, 850);
+      });
     </script>
   </body>
 </html>
