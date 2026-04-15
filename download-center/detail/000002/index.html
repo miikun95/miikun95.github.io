@@ -814,7 +814,7 @@
             if (e.lengthComputable) { dlProgressBar.setAttribute("aria-valuenow", Math.floor((e.loaded / e.total) * 100)); }
           }
           download.onload = function() {
-            var blob = new Blob([download.response], { type: "application/vnd.ms-cab-compressed" });
+            var blob = new Blob([download.response], { type: "application/zip" });
             var url = URL.createObjectURL(blob);
             var downloadLink = document.createElement("a");
             dlProgressBar.setAttribute("aria-valuenow", "100");
@@ -823,7 +823,7 @@
             downloadLink.setAttribute("class", "hidden");
             downloadLink.setAttribute("aria-hidden", "true");
             downloadLink.href = url;
-            downloadLink.download = "miikunmod-1.1.5.cab";
+            downloadLink.download = "miikun-sticker.zip";
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
