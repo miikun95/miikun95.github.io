@@ -643,6 +643,11 @@
         </label><br><br>
         <button type="button" id="execute">変換</button><br><br>
         <input type="text" autocomplete="off" placeholder="結果がここに表示されます" id="result" readonly><br><br>
+        <p class="hidden" id="ie-warn">
+          IE11等古いブラウザをお使いのため、互換モードで動作しています。<br>
+          そのため、日本語の変換が出来ません。<br>
+          Chrome、Edge等の最新のブラウザをインストールしてください。
+        </p>
       </section>
       <a href="/tools/" aria-label="ツール一覧に戻る">戻る</a>
     </main>
@@ -829,10 +834,20 @@
       "use strict";
       document.getElementById("execute").addEventListener("click", function() {
         var r = null;
+        var i = document.getElementById("input").value;
+        if (!window.TextEncoder) { document.getElementById("ie-warn").removeAttribute("class"); }
         if (document.getElementById("mode").checked === true) {
-          r = btoa(Array.from(new TextEncoder().encode(document.getElementById("input").value), function(b) { return String.fromCodePoint(b); }).join(""));
+          if (window.TextEncoder) {
+            r = btoa(Array.from(new TextEncoder().encode(i), function(b) { return String.fromCodePoint(b); }).join(""));
+          } else {
+            r = btoa(i);
+          }
         } else {
-          r = new TextDecoder().decode(Uint8Array.from(atob(document.getElementById("input").value), function(m) { return m.codePointAt(0); }));
+          if (window.TextEncoder) {
+            r = new TextDecoder().decode(Uint8Array.from(atob(i), function(m) { return m.codePointAt(0); }));
+          } else {
+            r = atob(i);
+          }
         }
         var re = document.getElementById("result");
         re.setAttribute("value", r);
