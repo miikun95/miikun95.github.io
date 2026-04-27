@@ -1,2 +1,0 @@
-Dir.glob("Save*.rvdata2").each {|f| File.delete(f) }
-DataManager.init
