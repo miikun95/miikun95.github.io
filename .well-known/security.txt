@@ -1,4 +1,4 @@
-Contact: mailto:hostmaster@miikun95.net
+Contact: mailto:miikun95@miikun95.net
 Expires: 2026-10-15T21:21:58.000+09:00
 Encryption: https://miikun95.net/profile/pgp.asc
 
